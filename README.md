@@ -1,14 +1,6 @@
-# **Automate Accounts Developer Hiring Assessment**
-
-This assessment is designed to evaluate your ability to build a system for processing scanned receipts automatically. The goal is to extract relevant details from PDF receipts using OCR/AI techniques and store the extracted data in a structured format.
 
 ## **Project Overview**
 
-You will be working with a repository containing a collection of scanned receipts in **PDF format**, categorized into directories based on the year of purchase. The challenge is to **automate** the extraction of information from these scanned receipts and store it efficiently in a **SQLite database**.
-
-Deadline for submission is **3 days** from when you receive the email.
-
-## **Problem Statement**
 
 Develop a solution as a **web application** with **REST APIs** that can:
 1. **Upload scanned receipts** in PDF format. The files can be stored in a local directory.
@@ -16,8 +8,6 @@ Develop a solution as a **web application** with **REST APIs** that can:
 3. **Extract key details** from the receipts using **OCR/AI-based text extraction** techniques.
 4. **Store extracted information** in a structured database schema.
 5. **Provide APIs** for managing and retrieving receipts and their extracted data.
-
-You may use **any programming language, framework, or OCR/AI library** to implement the solution.
 
 ---
 
@@ -78,73 +68,6 @@ The solution should expose a set of **REST APIs** for receipt management. You ma
 
 ### **5. `/receipts/{id}` (GET)**
 - Retrieves details of a specific receipt by its ID.
-
----
-
-## **Implementation Details**
-
-### **Technology Stack**
-- **Backend**: Node.js with Express.js
-- **Database**: SQLite with better-sqlite3
-- **File Upload**: Multer middleware
-- **PDF Processing**: pdf-parse library
-- **Documentation**: Swagger/OpenAPI
-
-### **Key Features Implemented**
-1. **Duplicate File Detection**: SHA-256 hash-based duplicate prevention
-2. **Enhanced Amount Parsing**: Multiple regex patterns for accurate total amount extraction
-3. **File Validation**: Comprehensive PDF validation with error handling
-4. **Database Integrity**: Foreign key constraints and proper indexing
-5. **API Documentation**: Interactive Swagger UI at `/api-docs`
-
-### **Enhanced Parsing Logic**
-The system uses sophisticated parsing patterns to extract:
-- **Total Amount**: Multiple regex patterns to handle various receipt formats
-- **Merchant Name**: First line extraction with length limits
-- **Purchase Date**: Flexible date format recognition
-- **Error Handling**: Robust validation and fallback mechanisms
-
----
-
-## **Evaluation Criteria**
-
-Your submission will be evaluated based on the following factors:
-
-1. **Accuracy of extracted information** – How well the OCR/AI system extracts key details.
-2. **Code quality & readability** – Clean, maintainable, and well-documented code.
-3. **Database schema design** – Efficient and scalable schema structure.
-4. **API design & functionality** – Proper implementation of API endpoints.
-5. **Error handling & validation** – Robust handling of invalid files and extraction errors.
-6. **Documentation** – Clear instructions on setup, usage, and functionality.
-7. **Git commit history** – Meaningful commits showing structured development progress.
-
----
-
-## **Submission Guidelines**
-
-Your final submission should be a **ZIP file** containing:
-
-1. **Source Code** – The complete implementation of your solution.
-2. **Database File (`receipts.db`)** – The SQLite database with sample entries.
-3. **Documentation** – A README file explaining:
-   - How to set up and run the project
-   - API usage with example requests/responses
-   - Any dependencies required
-4. **Execution Instructions** – Any specific setup steps needed to test your implementation.
-
----
-
-## **Additional Notes**
-
-1. **Flexibility** – You are free to enhance or modify the problem statement as needed. If you think of a better approach, feel free to implement it.
-2. **Technology Choice** – Use any programming language, framework, and libraries of your choice.
-3. **Duplicate Handling** – If the same receipt is uploaded multiple times, **update** the existing record instead of creating duplicates.
-4. **Partial Submissions** – If your solution is incomplete or has bugs, **submit anyway**. We value your approach and thought process more than a perfect implementation.
-5. **Support** – If you have any questions, feel free to reach out.
-
----
-
-## **Happy Coding!**
 
 
 ## Run Instructions (Express + SQLite)
