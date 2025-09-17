@@ -1,0 +1,186 @@
+openapi: 3.0.3
+info:
+  title: Receipt Processing API
+  version: 1.0.0
+  description: API for uploading, validating, processing receipts and listing processed receipts.
+servers:
+  - url: /api/v1
+paths:
+  /upload:
+    post:
+      summary: Upload a receipt PDF
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required:
+                - file
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+        '200':
+          description: Duplicate updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponseWithDuplicate'
+        '400':
+          description: Bad Request
+  /upload/validate:
+    post:
+      summary: Validate an uploaded PDF
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+              required:
+                - id
+      responses:
+        '200':
+          description: Validation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateResponse'
+        '404':
+          description: File not found
+  /receipts/process:
+    post:
+      summary: Process a validated receipt file into structured data
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+              required:
+                - id
+      responses:
+        '201':
+          description: Processed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessResponse'
+        '400':
+          description: Not validated or bad request
+        '404':
+          description: File not found
+  /receipts:
+    get:
+      summary: List receipts
+      responses:
+        '200':
+          description: A list of receipts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Receipt'
+  /receipts/{id}:
+    get:
+      summary: Get a receipt by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Receipt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+        '404':
+          description: Not found
+components:
+  schemas:
+    UploadResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        file_name:
+          type: string
+        file_path:
+          type: string
+    UploadResponseWithDuplicate:
+      allOf:
+        - $ref: '#/components/schemas/UploadResponse'
+        - type: object
+          properties:
+            duplicate:
+              type: boolean
+              example: true
+    ValidateResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        is_valid:
+          type: boolean
+        invalid_reason:
+          type: string
+          nullable: true
+    ProcessResponse:
+      type: object
+      properties:
+        receipt_id:
+          type: integer
+        merchant_name:
+          type: string
+          nullable: true
+        total_amount:
+          type: number
+          format: float
+          nullable: true
+        purchased_at:
+          type: string
+          format: date-time
+          nullable: true
+    Receipt:
+      type: object
+      properties:
+        id:
+          type: integer
+        purchased_at:
+          type: string
+          format: date-time
+          nullable: true
+        merchant_name:
+          type: string
+          nullable: true
+        total_amount:
+          type: number
+          format: float
+          nullable: true
+        file_path:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
